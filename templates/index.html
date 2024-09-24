@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador Léxico y Sintáctico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="p-8">
+            <h1 class="text-2xl font-bold mb-4">Analizador Léxico y Sintáctico</h1>
+            <textarea id="code-input" class="w-full h-40 p-2 border rounded" placeholder="Ingrese su código aquí..."></textarea>
+            <div class="mt-4">
+                <button id="analyze-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Analizar</button>
+                <button id="clear-btn" class="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 ml-2">Limpiar</button>
+            </div>
+            <div id="parser-output" class="mt-4 p-4 bg-gray-100 rounded"></div>
+            <div class="mt-4 overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Token</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Lexema</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Línea</th>
+                        </tr>
+                    </thead>
+                    <tbody id="token-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('analyze-btn').addEventListener('click', async () => {
+            const code = document.getElementById('code-input').value;
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code }),
+            });
+            const data = await response.json();
+            
+            document.getElementById('parser-output').textContent = data.parser_message;
+            
+            const tableBody = document.getElementById('token-table-body');
+            tableBody.innerHTML = '';
+            data.tokens.forEach(token => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = token.token;
+                row.insertCell(1).textContent = token.lexema;
+                row.insertCell(2).textContent = token.linea;
+            });
+        });
+
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            document.getElementById('code-input').value = '';
+            document.getElementById('parser-output').textContent = '';
+            document.getElementById('token-table-body').innerHTML = '';
+        });
+    </script>
+</body>
+</html>
