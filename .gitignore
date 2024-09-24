@@ -404,3 +404,8 @@ FodyWeavers.xsd
 .py
 ./py
 
+*.venv
+*.venv/
+
+*py
+*py/
