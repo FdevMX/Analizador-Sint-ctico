@@ -401,11 +401,11 @@ FodyWeavers.xsd
 ..venv
 ./venv
 
-.py
-./py
+.__pycache__
+./__pycache__/
 
 *.venv
 *.venv/
 
-*py
-*py/
+*__pycache__
+*__pycache__/
