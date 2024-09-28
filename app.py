@@ -1,50 +1,86 @@
-from flask import Flask, render_template, request, jsonify
-from lex import lexer, print_tokens
-from yacc import parser, analizar_codigo
-import io
-import sys
+import ply.yacc as yacc
+from main import tokens, lexer
 
-app = Flask(__name__)
+errors = []
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+def p_for_loop(p):
+    '''for_loop : FOR LPAREN initialization condition increment RPAREN LBRACE statement RBRACE'''
+    if not errors:
+        print("Estructura del bucle 'for' correcta")
 
-@app.route('/analyze', methods=['POST'])
-def analyze():
-    code = request.json['code']
-    
-    # Capturar la salida del analizador léxico
-    old_stdout = sys.stdout
-    sys.stdout = buffer = io.StringIO()
-    
-    print_tokens(code)
-    
-    lexer_output = buffer.getvalue()
-    sys.stdout = old_stdout
-    
-    # Analizar el código
-    parser_output = io.StringIO()
-    sys.stdout = parser_output
-    analizar_codigo(code)
-    parser_message = parser_output.getvalue()
-    sys.stdout = old_stdout
-    
-    # Procesar la salida del analizador léxico para crear una lista de tokens
-    tokens = []
-    for line in lexer_output.split('\n')[2:]:  # Saltar las dos primeras líneas (encabezado)
-        if line.strip():
-            parts = line.split()
-            if len(parts) >= 3:
-                token = parts[0]
-                linea = parts[-1]
-                lexema = ' '.join(parts[1:-1])  # Todo lo que está entre el token y la línea es el lexema
-                tokens.append({'token': token, 'lexema': lexema, 'linea': linea})
-    
-    return jsonify({
-        'parser_message': parser_message,
-        'tokens': tokens
-    })
+def p_initialization(p):
+    '''initialization : INT IDENTIFIER EQUALS NUMBER SEMICOLON
+                      | IDENTIFIER EQUALS NUMBER SEMICOLON'''
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def p_condition(p):
+    '''condition : IDENTIFIER LESS_EQUAL NUMBER SEMICOLON'''
+
+def p_increment(p):
+    '''increment : IDENTIFIER INCREMENT
+                 | INCREMENT IDENTIFIER'''
+
+def p_statement(p):
+    '''statement : SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON'''
+
+def p_initialization_error(p):
+    '''initialization : INT NUMBER EQUALS NUMBER SEMICOLON'''
+    errors.append(f"Error en la línea {p.lineno(2) -1 }: No se puede usar un número como nombre de variable")
+
+def p_increment_error(p):
+    '''increment : IDENTIFIER PLUS'''
+    errors.append(f"Error en la línea {p.lineno(2) - 1}: Incremento incorrecto, use '++' en lugar de '+'")
+
+def p_error(p):
+    if p:
+        errors.append(f"Error de sintaxis en la línea {p.lineno - 1}, posición {p.lexpos}: Token inesperado '{p.value}'")
+        parser.errok()
+    else:
+        check_for_missing_elements()
+
+def check_for_missing_elements():
+    stack_types = [t.type if t else '' for t in parser.symstack]
+    if 'LBRACE' in stack_types and 'RBRACE' not in stack_types:
+        errors.append("Error de sintaxis: Falta la llave de cierre '}' al final del bucle 'for'")
+    if 'LPAREN' in stack_types and 'RPAREN' not in stack_types:
+        errors.append("Error de sintaxis: Falta el paréntesis de cierre ')' en la declaración del bucle 'for'")
+    if 'SEMICOLON' not in stack_types[-3:]:
+        errors.append("Error de sintaxis: Falta un punto y coma ';' al final de una declaración")
+
+def check_specific_errors(code):
+    lines = code.split('\n')
+    for i, line in enumerate(lines, 1):
+        if 'System' in line and 'System.out.println' not in line:
+            errors.append(f"Error en la línea {i}: Posible error en 'System.out.println', verifique la ortografía")
+        if 'printn' in line:
+            errors.append(f"Error en la línea {i}: 'printn' no es correcto, ¿quizás quiso decir 'println'?")
+
+parser = yacc.yacc(debug=False)
+
+def parse_for_loop(code):
+    global errors
+    errors = []
+    lexer.lineno = 1
+    check_specific_errors(code)
+    result = parser.parse(code, lexer=lexer)
+    if errors:
+        print("Se encontraron los siguientes errores:")
+        for error in errors:
+            print(error)
+    elif result is None:
+        print("No se encontraron errores")
+    return result
+
+if __name__ == "__main__":
+    code1 = '''
+for (int 1 = 1; i <= 5; i+) {
+    Syste.out.pritln("El valor de la cifra es: " + i);
+'''
+    print("Analizando código 1:")
+    parse_for_loop(code1)
+
+    print("\nAnalizando código 2:")
+    code2 = '''
+for (int 1 = 1; i <= 5; i+) {
+    System.out.printn("El valor de la cifra es: " + i)
+'''
+    parse_for_loop(code2)
