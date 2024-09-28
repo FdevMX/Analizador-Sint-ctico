@@ -1,454 +1,374 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    COMILLAS
-    DOSPUNTOS
-
 Grammar
 
-Rule 0     S' -> programa
-Rule 1     programa -> sentencia_for
-Rule 2     sentencia_for -> PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for PARENTESIS_DER bloque
-Rule 3     declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for
-Rule 4     condicion_for -> IDENTIFICADOR MENOR_IGUAL NUMERO
-Rule 5     incremento_for -> IDENTIFICADOR MAS MAS
-Rule 6     incremento_for -> IDENTIFICADOR MAS
-Rule 7     bloque -> LLAVE_IZQ sentencia_imprimir LLAVE_DER
-Rule 8     sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA
-Rule 9     expresion_concatenacion -> CADENA_TEXTO
-Rule 10    expresion_concatenacion -> CADENA_TEXTO MAS expresion_concatenacion
-Rule 11    expresion_concatenacion -> expresion_concatenacion MAS expresion_concatenacion
-Rule 12    expresion_concatenacion -> expresion_concatenacion MAS CADENA_TEXTO
-Rule 13    expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR
-Rule 14    expresion_concatenacion -> IDENTIFICADOR
-Rule 15    cadena -> IDENTIFICADOR
-Rule 16    cadena -> cadena IDENTIFICADOR
-Rule 17    cadena -> cadena MAYOR_QUE
-Rule 18    cadena -> cadena MENOR_IGUAL
-Rule 19    cadena -> cadena IGUAL
-Rule 20    cadena -> cadena MAS
-Rule 21    cadena -> cadena PUNTO
-Rule 22    cadena -> cadena PUNTO_COMA
-Rule 23    cadena -> cadena NUMERO
-Rule 24    cadena -> <empty>
+Rule 0     S' -> for_loop
+Rule 1     for_loop -> FOR LPAREN initialization condition increment RPAREN LBRACE statement RBRACE
+Rule 2     initialization -> INT IDENTIFIER EQUALS NUMBER SEMICOLON
+Rule 3     initialization -> IDENTIFIER EQUALS NUMBER SEMICOLON
+Rule 4     condition -> IDENTIFIER LESS_EQUAL NUMBER SEMICOLON
+Rule 5     increment -> IDENTIFIER INCREMENT
+Rule 6     increment -> INCREMENT IDENTIFIER
+Rule 7     statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON
+Rule 8     initialization -> INT NUMBER EQUALS NUMBER SEMICOLON
+Rule 9     increment -> IDENTIFIER PLUS
 
 Terminals, with rules where they appear
 
-CADENA_TEXTO         : 9 10 12
-COMILLAS             : 
-DOSPUNTOS            : 
-IDENTIFICADOR        : 3 4 5 6 13 14 15 16
-IGUAL                : 3 19
-LLAVE_DER            : 7
-LLAVE_IZQ            : 7
-MAS                  : 5 5 6 10 11 12 13 20
-MAYOR_QUE            : 17
-MENOR_IGUAL          : 4 18
-NUMERO               : 3 4 23
-PALABRA_RESERVADA    : 2 3 8 8 8
-PARENTESIS_DER       : 2 8
-PARENTESIS_IZQ       : 2 8
-PUNTO                : 8 8 21
-PUNTO_COMA           : 3 3 8 22
+DOT                  : 7 7
+EQUALS               : 2 3 8
+FOR                  : 1
+IDENTIFIER           : 2 3 4 5 6 7 9
+INCREMENT            : 5 6
+INT                  : 2 8
+LBRACE               : 1
+LESS_EQUAL           : 4
+LPAREN               : 1 7
+NUMBER               : 2 3 4 8 8
+OUT                  : 7
+PLUS                 : 7 9
+PRINTLN              : 7
+RBRACE               : 1
+RPAREN               : 1 7
+SEMICOLON            : 2 3 4 7 8
+STRING               : 7
+SYSTEM               : 7
 error                : 
 
 Nonterminals, with rules where they appear
 
-bloque               : 2
-cadena               : 16 17 18 19 20 21 22 23
-condicion_for        : 3
-declaracion_for      : 2
-expresion_concatenacion : 8 10 11 11 12 13
-incremento_for       : 3
-programa             : 0
-sentencia_for        : 1
-sentencia_imprimir   : 7
+condition            : 1
+for_loop             : 0
+increment            : 1
+initialization       : 1
+statement            : 1
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . programa
-    (1) programa -> . sentencia_for
-    (2) sentencia_for -> . PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for PARENTESIS_DER bloque
+    (0) S' -> . for_loop
+    (1) for_loop -> . FOR LPAREN initialization condition increment RPAREN LBRACE statement RBRACE
 
-    PALABRA_RESERVADA shift and go to state 3
+    FOR             shift and go to state 2
 
-    programa                       shift and go to state 1
-    sentencia_for                  shift and go to state 2
+    for_loop                       shift and go to state 1
 
 state 1
 
-    (0) S' -> programa .
+    (0) S' -> for_loop .
 
 
 
 state 2
 
-    (1) programa -> sentencia_for .
+    (1) for_loop -> FOR . LPAREN initialization condition increment RPAREN LBRACE statement RBRACE
 
-    $end            reduce using rule 1 (programa -> sentencia_for .)
+    LPAREN          shift and go to state 3
 
 
 state 3
 
-    (2) sentencia_for -> PALABRA_RESERVADA . PARENTESIS_IZQ declaracion_for PARENTESIS_DER bloque
+    (1) for_loop -> FOR LPAREN . initialization condition increment RPAREN LBRACE statement RBRACE
+    (2) initialization -> . INT IDENTIFIER EQUALS NUMBER SEMICOLON
+    (3) initialization -> . IDENTIFIER EQUALS NUMBER SEMICOLON
+    (8) initialization -> . INT NUMBER EQUALS NUMBER SEMICOLON
 
-    PARENTESIS_IZQ  shift and go to state 4
+    INT             shift and go to state 5
+    IDENTIFIER      shift and go to state 6
 
+    initialization                 shift and go to state 4
 
 state 4
 
-    (2) sentencia_for -> PALABRA_RESERVADA PARENTESIS_IZQ . declaracion_for PARENTESIS_DER bloque
-    (3) declaracion_for -> . PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for
+    (1) for_loop -> FOR LPAREN initialization . condition increment RPAREN LBRACE statement RBRACE
+    (4) condition -> . IDENTIFIER LESS_EQUAL NUMBER SEMICOLON
 
-    PALABRA_RESERVADA shift and go to state 5
+    IDENTIFIER      shift and go to state 8
 
-    declaracion_for                shift and go to state 6
+    condition                      shift and go to state 7
 
 state 5
 
-    (3) declaracion_for -> PALABRA_RESERVADA . IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for
+    (2) initialization -> INT . IDENTIFIER EQUALS NUMBER SEMICOLON
+    (8) initialization -> INT . NUMBER EQUALS NUMBER SEMICOLON
 
-    IDENTIFICADOR   shift and go to state 7
+    IDENTIFIER      shift and go to state 9
+    NUMBER          shift and go to state 10
 
 
 state 6
 
-    (2) sentencia_for -> PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for . PARENTESIS_DER bloque
+    (3) initialization -> IDENTIFIER . EQUALS NUMBER SEMICOLON
 
-    PARENTESIS_DER  shift and go to state 8
+    EQUALS          shift and go to state 11
 
 
 state 7
 
-    (3) declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR . IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for
+    (1) for_loop -> FOR LPAREN initialization condition . increment RPAREN LBRACE statement RBRACE
+    (5) increment -> . IDENTIFIER INCREMENT
+    (6) increment -> . INCREMENT IDENTIFIER
+    (9) increment -> . IDENTIFIER PLUS
 
-    IGUAL           shift and go to state 9
+    IDENTIFIER      shift and go to state 13
+    INCREMENT       shift and go to state 14
 
+    increment                      shift and go to state 12
 
 state 8
 
-    (2) sentencia_for -> PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for PARENTESIS_DER . bloque
-    (7) bloque -> . LLAVE_IZQ sentencia_imprimir LLAVE_DER
+    (4) condition -> IDENTIFIER . LESS_EQUAL NUMBER SEMICOLON
 
-    LLAVE_IZQ       shift and go to state 11
+    LESS_EQUAL      shift and go to state 15
 
-    bloque                         shift and go to state 10
 
 state 9
 
-    (3) declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL . NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for
+    (2) initialization -> INT IDENTIFIER . EQUALS NUMBER SEMICOLON
 
-    NUMERO          shift and go to state 12
+    EQUALS          shift and go to state 16
 
 
 state 10
 
-    (2) sentencia_for -> PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for PARENTESIS_DER bloque .
+    (8) initialization -> INT NUMBER . EQUALS NUMBER SEMICOLON
 
-    $end            reduce using rule 2 (sentencia_for -> PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for PARENTESIS_DER bloque .)
+    EQUALS          shift and go to state 17
 
 
 state 11
 
-    (7) bloque -> LLAVE_IZQ . sentencia_imprimir LLAVE_DER
-    (8) sentencia_imprimir -> . PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA
+    (3) initialization -> IDENTIFIER EQUALS . NUMBER SEMICOLON
 
-    PALABRA_RESERVADA shift and go to state 14
+    NUMBER          shift and go to state 18
 
-    sentencia_imprimir             shift and go to state 13
 
 state 12
 
-    (3) declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO . PUNTO_COMA condicion_for PUNTO_COMA incremento_for
+    (1) for_loop -> FOR LPAREN initialization condition increment . RPAREN LBRACE statement RBRACE
 
-    PUNTO_COMA      shift and go to state 15
+    RPAREN          shift and go to state 19
 
 
 state 13
 
-    (7) bloque -> LLAVE_IZQ sentencia_imprimir . LLAVE_DER
+    (5) increment -> IDENTIFIER . INCREMENT
+    (9) increment -> IDENTIFIER . PLUS
 
-    LLAVE_DER       shift and go to state 16
+    INCREMENT       shift and go to state 20
+    PLUS            shift and go to state 21
 
 
 state 14
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA . PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA
+    (6) increment -> INCREMENT . IDENTIFIER
 
-    PUNTO           shift and go to state 17
+    IDENTIFIER      shift and go to state 22
 
 
 state 15
 
-    (3) declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA . condicion_for PUNTO_COMA incremento_for
-    (4) condicion_for -> . IDENTIFICADOR MENOR_IGUAL NUMERO
+    (4) condition -> IDENTIFIER LESS_EQUAL . NUMBER SEMICOLON
 
-    IDENTIFICADOR   shift and go to state 18
+    NUMBER          shift and go to state 23
 
-    condicion_for                  shift and go to state 19
 
 state 16
 
-    (7) bloque -> LLAVE_IZQ sentencia_imprimir LLAVE_DER .
+    (2) initialization -> INT IDENTIFIER EQUALS . NUMBER SEMICOLON
 
-    $end            reduce using rule 7 (bloque -> LLAVE_IZQ sentencia_imprimir LLAVE_DER .)
+    NUMBER          shift and go to state 24
 
 
 state 17
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO . PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA
+    (8) initialization -> INT NUMBER EQUALS . NUMBER SEMICOLON
 
-    PALABRA_RESERVADA shift and go to state 20
+    NUMBER          shift and go to state 25
 
 
 state 18
 
-    (4) condicion_for -> IDENTIFICADOR . MENOR_IGUAL NUMERO
+    (3) initialization -> IDENTIFIER EQUALS NUMBER . SEMICOLON
 
-    MENOR_IGUAL     shift and go to state 21
+    SEMICOLON       shift and go to state 26
 
 
 state 19
 
-    (3) declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for . PUNTO_COMA incremento_for
+    (1) for_loop -> FOR LPAREN initialization condition increment RPAREN . LBRACE statement RBRACE
 
-    PUNTO_COMA      shift and go to state 22
+    LBRACE          shift and go to state 27
 
 
 state 20
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA . PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA
+    (5) increment -> IDENTIFIER INCREMENT .
 
-    PUNTO           shift and go to state 23
+    RPAREN          reduce using rule 5 (increment -> IDENTIFIER INCREMENT .)
 
 
 state 21
 
-    (4) condicion_for -> IDENTIFICADOR MENOR_IGUAL . NUMERO
+    (9) increment -> IDENTIFIER PLUS .
 
-    NUMERO          shift and go to state 24
+    RPAREN          reduce using rule 9 (increment -> IDENTIFIER PLUS .)
 
 
 state 22
 
-    (3) declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA . incremento_for
-    (5) incremento_for -> . IDENTIFICADOR MAS MAS
-    (6) incremento_for -> . IDENTIFICADOR MAS
+    (6) increment -> INCREMENT IDENTIFIER .
 
-    IDENTIFICADOR   shift and go to state 25
+    RPAREN          reduce using rule 6 (increment -> INCREMENT IDENTIFIER .)
 
-    incremento_for                 shift and go to state 26
 
 state 23
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO . PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA
+    (4) condition -> IDENTIFIER LESS_EQUAL NUMBER . SEMICOLON
 
-    PALABRA_RESERVADA shift and go to state 27
+    SEMICOLON       shift and go to state 28
 
 
 state 24
 
-    (4) condicion_for -> IDENTIFICADOR MENOR_IGUAL NUMERO .
+    (2) initialization -> INT IDENTIFIER EQUALS NUMBER . SEMICOLON
 
-    PUNTO_COMA      reduce using rule 4 (condicion_for -> IDENTIFICADOR MENOR_IGUAL NUMERO .)
+    SEMICOLON       shift and go to state 29
 
 
 state 25
 
-    (5) incremento_for -> IDENTIFICADOR . MAS MAS
-    (6) incremento_for -> IDENTIFICADOR . MAS
+    (8) initialization -> INT NUMBER EQUALS NUMBER . SEMICOLON
 
-    MAS             shift and go to state 28
+    SEMICOLON       shift and go to state 30
 
 
 state 26
 
-    (3) declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for .
+    (3) initialization -> IDENTIFIER EQUALS NUMBER SEMICOLON .
 
-    PARENTESIS_DER  reduce using rule 3 (declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for .)
+    IDENTIFIER      reduce using rule 3 (initialization -> IDENTIFIER EQUALS NUMBER SEMICOLON .)
 
 
 state 27
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA . PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA
+    (1) for_loop -> FOR LPAREN initialization condition increment RPAREN LBRACE . statement RBRACE
+    (7) statement -> . SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON
 
-    PARENTESIS_IZQ  shift and go to state 29
+    SYSTEM          shift and go to state 32
 
+    statement                      shift and go to state 31
 
 state 28
 
-    (5) incremento_for -> IDENTIFICADOR MAS . MAS
-    (6) incremento_for -> IDENTIFICADOR MAS .
+    (4) condition -> IDENTIFIER LESS_EQUAL NUMBER SEMICOLON .
 
-    MAS             shift and go to state 30
-    PARENTESIS_DER  reduce using rule 6 (incremento_for -> IDENTIFICADOR MAS .)
+    IDENTIFIER      reduce using rule 4 (condition -> IDENTIFIER LESS_EQUAL NUMBER SEMICOLON .)
+    INCREMENT       reduce using rule 4 (condition -> IDENTIFIER LESS_EQUAL NUMBER SEMICOLON .)
 
 
 state 29
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ . expresion_concatenacion PARENTESIS_DER PUNTO_COMA
-    (9) expresion_concatenacion -> . CADENA_TEXTO
-    (10) expresion_concatenacion -> . CADENA_TEXTO MAS expresion_concatenacion
-    (11) expresion_concatenacion -> . expresion_concatenacion MAS expresion_concatenacion
-    (12) expresion_concatenacion -> . expresion_concatenacion MAS CADENA_TEXTO
-    (13) expresion_concatenacion -> . expresion_concatenacion MAS IDENTIFICADOR
-    (14) expresion_concatenacion -> . IDENTIFICADOR
+    (2) initialization -> INT IDENTIFIER EQUALS NUMBER SEMICOLON .
 
-    CADENA_TEXTO    shift and go to state 32
-    IDENTIFICADOR   shift and go to state 33
+    IDENTIFIER      reduce using rule 2 (initialization -> INT IDENTIFIER EQUALS NUMBER SEMICOLON .)
 
-    expresion_concatenacion        shift and go to state 31
 
 state 30
 
-    (5) incremento_for -> IDENTIFICADOR MAS MAS .
+    (8) initialization -> INT NUMBER EQUALS NUMBER SEMICOLON .
 
-    PARENTESIS_DER  reduce using rule 5 (incremento_for -> IDENTIFICADOR MAS MAS .)
+    IDENTIFIER      reduce using rule 8 (initialization -> INT NUMBER EQUALS NUMBER SEMICOLON .)
 
 
 state 31
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion . PARENTESIS_DER PUNTO_COMA
-    (11) expresion_concatenacion -> expresion_concatenacion . MAS expresion_concatenacion
-    (12) expresion_concatenacion -> expresion_concatenacion . MAS CADENA_TEXTO
-    (13) expresion_concatenacion -> expresion_concatenacion . MAS IDENTIFICADOR
+    (1) for_loop -> FOR LPAREN initialization condition increment RPAREN LBRACE statement . RBRACE
 
-    PARENTESIS_DER  shift and go to state 34
-    MAS             shift and go to state 35
+    RBRACE          shift and go to state 33
 
 
 state 32
 
-    (9) expresion_concatenacion -> CADENA_TEXTO .
-    (10) expresion_concatenacion -> CADENA_TEXTO . MAS expresion_concatenacion
+    (7) statement -> SYSTEM . DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON
 
-  ! shift/reduce conflict for MAS resolved as shift
-    PARENTESIS_DER  reduce using rule 9 (expresion_concatenacion -> CADENA_TEXTO .)
-    MAS             shift and go to state 36
-
-  ! MAS             [ reduce using rule 9 (expresion_concatenacion -> CADENA_TEXTO .) ]
+    DOT             shift and go to state 34
 
 
 state 33
 
-    (14) expresion_concatenacion -> IDENTIFICADOR .
+    (1) for_loop -> FOR LPAREN initialization condition increment RPAREN LBRACE statement RBRACE .
 
-    PARENTESIS_DER  reduce using rule 14 (expresion_concatenacion -> IDENTIFICADOR .)
-    MAS             reduce using rule 14 (expresion_concatenacion -> IDENTIFICADOR .)
+    $end            reduce using rule 1 (for_loop -> FOR LPAREN initialization condition increment RPAREN LBRACE statement RBRACE .)
 
 
 state 34
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER . PUNTO_COMA
+    (7) statement -> SYSTEM DOT . OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON
 
-    PUNTO_COMA      shift and go to state 37
+    OUT             shift and go to state 35
 
 
 state 35
 
-    (11) expresion_concatenacion -> expresion_concatenacion MAS . expresion_concatenacion
-    (12) expresion_concatenacion -> expresion_concatenacion MAS . CADENA_TEXTO
-    (13) expresion_concatenacion -> expresion_concatenacion MAS . IDENTIFICADOR
-    (9) expresion_concatenacion -> . CADENA_TEXTO
-    (10) expresion_concatenacion -> . CADENA_TEXTO MAS expresion_concatenacion
-    (11) expresion_concatenacion -> . expresion_concatenacion MAS expresion_concatenacion
-    (12) expresion_concatenacion -> . expresion_concatenacion MAS CADENA_TEXTO
-    (13) expresion_concatenacion -> . expresion_concatenacion MAS IDENTIFICADOR
-    (14) expresion_concatenacion -> . IDENTIFICADOR
+    (7) statement -> SYSTEM DOT OUT . DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON
 
-    CADENA_TEXTO    shift and go to state 39
-    IDENTIFICADOR   shift and go to state 40
+    DOT             shift and go to state 36
 
-    expresion_concatenacion        shift and go to state 38
 
 state 36
 
-    (10) expresion_concatenacion -> CADENA_TEXTO MAS . expresion_concatenacion
-    (9) expresion_concatenacion -> . CADENA_TEXTO
-    (10) expresion_concatenacion -> . CADENA_TEXTO MAS expresion_concatenacion
-    (11) expresion_concatenacion -> . expresion_concatenacion MAS expresion_concatenacion
-    (12) expresion_concatenacion -> . expresion_concatenacion MAS CADENA_TEXTO
-    (13) expresion_concatenacion -> . expresion_concatenacion MAS IDENTIFICADOR
-    (14) expresion_concatenacion -> . IDENTIFICADOR
+    (7) statement -> SYSTEM DOT OUT DOT . PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON
 
-    CADENA_TEXTO    shift and go to state 32
-    IDENTIFICADOR   shift and go to state 33
+    PRINTLN         shift and go to state 37
 
-    expresion_concatenacion        shift and go to state 41
 
 state 37
 
-    (8) sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA .
+    (7) statement -> SYSTEM DOT OUT DOT PRINTLN . LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON
 
-    LLAVE_DER       reduce using rule 8 (sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA .)
+    LPAREN          shift and go to state 38
 
 
 state 38
 
-    (11) expresion_concatenacion -> expresion_concatenacion MAS expresion_concatenacion .
-    (11) expresion_concatenacion -> expresion_concatenacion . MAS expresion_concatenacion
-    (12) expresion_concatenacion -> expresion_concatenacion . MAS CADENA_TEXTO
-    (13) expresion_concatenacion -> expresion_concatenacion . MAS IDENTIFICADOR
+    (7) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN . STRING PLUS IDENTIFIER RPAREN SEMICOLON
 
-    PARENTESIS_DER  reduce using rule 11 (expresion_concatenacion -> expresion_concatenacion MAS expresion_concatenacion .)
-    MAS             reduce using rule 11 (expresion_concatenacion -> expresion_concatenacion MAS expresion_concatenacion .)
-
-  ! MAS             [ shift and go to state 35 ]
+    STRING          shift and go to state 39
 
 
 state 39
 
-    (12) expresion_concatenacion -> expresion_concatenacion MAS CADENA_TEXTO .
-    (9) expresion_concatenacion -> CADENA_TEXTO .
-    (10) expresion_concatenacion -> CADENA_TEXTO . MAS expresion_concatenacion
+    (7) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING . PLUS IDENTIFIER RPAREN SEMICOLON
 
-  ! reduce/reduce conflict for MAS resolved using rule 9 (expresion_concatenacion -> CADENA_TEXTO .)
-  ! reduce/reduce conflict for PARENTESIS_DER resolved using rule 9 (expresion_concatenacion -> CADENA_TEXTO .)
-  ! shift/reduce conflict for MAS resolved as shift
-    PARENTESIS_DER  reduce using rule 9 (expresion_concatenacion -> CADENA_TEXTO .)
-    MAS             shift and go to state 36
-
-  ! PARENTESIS_DER  [ reduce using rule 12 (expresion_concatenacion -> expresion_concatenacion MAS CADENA_TEXTO .) ]
-  ! MAS             [ reduce using rule 12 (expresion_concatenacion -> expresion_concatenacion MAS CADENA_TEXTO .) ]
-  ! MAS             [ reduce using rule 9 (expresion_concatenacion -> CADENA_TEXTO .) ]
+    PLUS            shift and go to state 40
 
 
 state 40
 
-    (13) expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR .
-    (14) expresion_concatenacion -> IDENTIFICADOR .
+    (7) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS . IDENTIFIER RPAREN SEMICOLON
 
-  ! reduce/reduce conflict for MAS resolved using rule 13 (expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR .)
-  ! reduce/reduce conflict for PARENTESIS_DER resolved using rule 13 (expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR .)
-    PARENTESIS_DER  reduce using rule 13 (expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR .)
-    MAS             reduce using rule 13 (expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR .)
-
-  ! MAS             [ reduce using rule 14 (expresion_concatenacion -> IDENTIFICADOR .) ]
-  ! PARENTESIS_DER  [ reduce using rule 14 (expresion_concatenacion -> IDENTIFICADOR .) ]
+    IDENTIFIER      shift and go to state 41
 
 
 state 41
 
-    (10) expresion_concatenacion -> CADENA_TEXTO MAS expresion_concatenacion .
-    (11) expresion_concatenacion -> expresion_concatenacion . MAS expresion_concatenacion
-    (12) expresion_concatenacion -> expresion_concatenacion . MAS CADENA_TEXTO
-    (13) expresion_concatenacion -> expresion_concatenacion . MAS IDENTIFICADOR
+    (7) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER . RPAREN SEMICOLON
 
-    PARENTESIS_DER  reduce using rule 10 (expresion_concatenacion -> CADENA_TEXTO MAS expresion_concatenacion .)
-    MAS             reduce using rule 10 (expresion_concatenacion -> CADENA_TEXTO MAS expresion_concatenacion .)
+    RPAREN          shift and go to state 42
 
-  ! MAS             [ shift and go to state 35 ]
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for MAS in state 32 resolved as shift
-WARNING: shift/reduce conflict for MAS in state 39 resolved as shift
-WARNING: reduce/reduce conflict in state 39 resolved using rule (expresion_concatenacion -> CADENA_TEXTO)
-WARNING: rejected rule (expresion_concatenacion -> expresion_concatenacion MAS CADENA_TEXTO) in state 39
-WARNING: reduce/reduce conflict in state 40 resolved using rule (expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR)
-WARNING: rejected rule (expresion_concatenacion -> IDENTIFICADOR) in state 40
-WARNING: Rule (expresion_concatenacion -> expresion_concatenacion MAS CADENA_TEXTO) is never reduced
+state 42
+
+    (7) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 43
+
+
+state 43
+
+    (7) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON .
+
+    RBRACE          reduce using rule 7 (statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON .)
+

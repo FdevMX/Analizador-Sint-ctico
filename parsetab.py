@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftMASleftMENOR_IGUALCADENA_TEXTO COMILLAS DOSPUNTOS IDENTIFICADOR IGUAL LLAVE_DER LLAVE_IZQ MAS MAYOR_QUE MENOR_IGUAL NUMERO PALABRA_RESERVADA PALABRA_RESERVADA PALABRA_RESERVADA PALABRA_RESERVADA PALABRA_RESERVADA PALABRA_RESERVADA PARENTESIS_DER PARENTESIS_IZQ PUNTO PUNTO_COMAprograma : sentencia_forsentencia_for : PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for PARENTESIS_DER bloquedeclaracion_for : PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_forcondicion_for : IDENTIFICADOR MENOR_IGUAL NUMEROincremento_for : IDENTIFICADOR MAS MAS\n                      | IDENTIFICADOR MASbloque : LLAVE_IZQ sentencia_imprimir LLAVE_DERsentencia_imprimir : PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMAexpresion_concatenacion : CADENA_TEXTO\n                               | CADENA_TEXTO MAS expresion_concatenacion\n                               | expresion_concatenacion MAS expresion_concatenacion\n                               | expresion_concatenacion MAS CADENA_TEXTO\n                               | expresion_concatenacion MAS IDENTIFICADOR\n                               | IDENTIFICADORcadena : IDENTIFICADOR\n              | cadena IDENTIFICADOR\n              | cadena MAYOR_QUE\n              | cadena MENOR_IGUAL\n              | cadena IGUAL\n              | cadena MAS\n              | cadena PUNTO\n              | cadena PUNTO_COMA\n              | cadena NUMERO\n              | '
+_lr_signature = 'DOT EQUALS FOR IDENTIFIER INCREMENT INT LBRACE LESS_EQUAL LPAREN NUMBER OUT PLUS PRINTLN RBRACE RPAREN SEMICOLON STRING SYSTEMfor_loop : FOR LPAREN initialization condition increment RPAREN LBRACE statement RBRACEinitialization : INT IDENTIFIER EQUALS NUMBER SEMICOLON\n                      | IDENTIFIER EQUALS NUMBER SEMICOLONcondition : IDENTIFIER LESS_EQUAL NUMBER SEMICOLONincrement : IDENTIFIER INCREMENT\n                 | INCREMENT IDENTIFIERstatement : SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLONinitialization : INT NUMBER EQUALS NUMBER SEMICOLONincrement : IDENTIFIER PLUS'
     
-_lr_action_items = {'PALABRA_RESERVADA':([0,4,11,17,23,],[3,5,14,20,27,]),'$end':([1,2,10,16,],[0,-1,-2,-7,]),'PARENTESIS_IZQ':([3,27,],[4,29,]),'IDENTIFICADOR':([5,15,22,29,35,36,],[7,18,25,33,40,33,]),'PARENTESIS_DER':([6,26,28,30,31,32,33,38,39,40,41,],[8,-3,-6,-5,34,-9,-14,-11,-9,-13,-10,]),'IGUAL':([7,],[9,]),'LLAVE_IZQ':([8,],[11,]),'NUMERO':([9,21,],[12,24,]),'PUNTO_COMA':([12,19,24,34,],[15,22,-4,37,]),'LLAVE_DER':([13,37,],[16,-8,]),'PUNTO':([14,20,],[17,23,]),'MENOR_IGUAL':([18,],[21,]),'MAS':([25,28,31,32,33,38,39,40,41,],[28,30,35,36,-14,-11,36,-13,-10,]),'CADENA_TEXTO':([29,35,36,],[32,39,32,]),}
+_lr_action_items = {'FOR':([0,],[2,]),'$end':([1,33,],[0,-1,]),'LPAREN':([2,37,],[3,38,]),'INT':([3,],[5,]),'IDENTIFIER':([3,4,5,7,14,26,28,29,30,40,],[6,8,9,13,22,-3,-4,-2,-8,41,]),'NUMBER':([5,11,15,16,17,],[10,18,23,24,25,]),'EQUALS':([6,9,10,],[11,16,17,]),'INCREMENT':([7,13,28,],[14,20,-4,]),'LESS_EQUAL':([8,],[15,]),'RPAREN':([12,20,21,22,41,],[19,-5,-9,-6,42,]),'PLUS':([13,39,],[21,40,]),'SEMICOLON':([18,23,24,25,42,],[26,28,29,30,43,]),'LBRACE':([19,],[27,]),'SYSTEM':([27,],[32,]),'RBRACE':([31,43,],[33,-7,]),'DOT':([32,35,],[34,36,]),'OUT':([34,],[35,]),'PRINTLN':([36,],[37,]),'STRING':([38,],[39,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'programa':([0,],[1,]),'sentencia_for':([0,],[2,]),'declaracion_for':([4,],[6,]),'bloque':([8,],[10,]),'sentencia_imprimir':([11,],[13,]),'condicion_for':([15,],[19,]),'incremento_for':([22,],[26,]),'expresion_concatenacion':([29,35,36,],[31,38,41,]),}
+_lr_goto_items = {'for_loop':([0,],[1,]),'initialization':([3,],[4,]),'condition':([4,],[7,]),'increment':([7,],[12,]),'statement':([27,],[31,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,29 +26,14 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> programa","S'",1,None,None,None),
-  ('programa -> sentencia_for','programa',1,'p_programa','yacc.py',10),
-  ('sentencia_for -> PALABRA_RESERVADA PARENTESIS_IZQ declaracion_for PARENTESIS_DER bloque','sentencia_for',5,'p_sentencia_for','yacc.py',14),
-  ('declaracion_for -> PALABRA_RESERVADA IDENTIFICADOR IGUAL NUMERO PUNTO_COMA condicion_for PUNTO_COMA incremento_for','declaracion_for',8,'p_declaracion_for','yacc.py',18),
-  ('condicion_for -> IDENTIFICADOR MENOR_IGUAL NUMERO','condicion_for',3,'p_condicion_for','yacc.py',22),
-  ('incremento_for -> IDENTIFICADOR MAS MAS','incremento_for',3,'p_incremento_for','yacc.py',26),
-  ('incremento_for -> IDENTIFICADOR MAS','incremento_for',2,'p_incremento_for','yacc.py',27),
-  ('bloque -> LLAVE_IZQ sentencia_imprimir LLAVE_DER','bloque',3,'p_bloque','yacc.py',35),
-  ('sentencia_imprimir -> PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PUNTO PALABRA_RESERVADA PARENTESIS_IZQ expresion_concatenacion PARENTESIS_DER PUNTO_COMA','sentencia_imprimir',9,'p_sentencia_imprimir','yacc.py',39),
-  ('expresion_concatenacion -> CADENA_TEXTO','expresion_concatenacion',1,'p_expresion_concatenacion','yacc.py',43),
-  ('expresion_concatenacion -> CADENA_TEXTO MAS expresion_concatenacion','expresion_concatenacion',3,'p_expresion_concatenacion','yacc.py',44),
-  ('expresion_concatenacion -> expresion_concatenacion MAS expresion_concatenacion','expresion_concatenacion',3,'p_expresion_concatenacion','yacc.py',45),
-  ('expresion_concatenacion -> expresion_concatenacion MAS CADENA_TEXTO','expresion_concatenacion',3,'p_expresion_concatenacion','yacc.py',46),
-  ('expresion_concatenacion -> expresion_concatenacion MAS IDENTIFICADOR','expresion_concatenacion',3,'p_expresion_concatenacion','yacc.py',47),
-  ('expresion_concatenacion -> IDENTIFICADOR','expresion_concatenacion',1,'p_expresion_concatenacion','yacc.py',48),
-  ('cadena -> IDENTIFICADOR','cadena',1,'p_cadena','yacc.py',61),
-  ('cadena -> cadena IDENTIFICADOR','cadena',2,'p_cadena','yacc.py',62),
-  ('cadena -> cadena MAYOR_QUE','cadena',2,'p_cadena','yacc.py',63),
-  ('cadena -> cadena MENOR_IGUAL','cadena',2,'p_cadena','yacc.py',64),
-  ('cadena -> cadena IGUAL','cadena',2,'p_cadena','yacc.py',65),
-  ('cadena -> cadena MAS','cadena',2,'p_cadena','yacc.py',66),
-  ('cadena -> cadena PUNTO','cadena',2,'p_cadena','yacc.py',67),
-  ('cadena -> cadena PUNTO_COMA','cadena',2,'p_cadena','yacc.py',68),
-  ('cadena -> cadena NUMERO','cadena',2,'p_cadena','yacc.py',69),
-  ('cadena -> <empty>','cadena',0,'p_cadena','yacc.py',70),
+  ("S' -> for_loop","S'",1,None,None,None),
+  ('for_loop -> FOR LPAREN initialization condition increment RPAREN LBRACE statement RBRACE','for_loop',9,'p_for_loop','app.py',9),
+  ('initialization -> INT IDENTIFIER EQUALS NUMBER SEMICOLON','initialization',5,'p_initialization','app.py',14),
+  ('initialization -> IDENTIFIER EQUALS NUMBER SEMICOLON','initialization',4,'p_initialization','app.py',15),
+  ('condition -> IDENTIFIER LESS_EQUAL NUMBER SEMICOLON','condition',4,'p_condition','app.py',18),
+  ('increment -> IDENTIFIER INCREMENT','increment',2,'p_increment','app.py',21),
+  ('increment -> INCREMENT IDENTIFIER','increment',2,'p_increment','app.py',22),
+  ('statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN STRING PLUS IDENTIFIER RPAREN SEMICOLON','statement',11,'p_statement','app.py',25),
+  ('initialization -> INT NUMBER EQUALS NUMBER SEMICOLON','initialization',5,'p_initialization_error','app.py',29),
+  ('increment -> IDENTIFIER PLUS','increment',2,'p_increment_error','app.py',33),
 ]
