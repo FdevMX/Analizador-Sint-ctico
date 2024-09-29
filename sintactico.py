@@ -71,9 +71,9 @@ def parse_for_loop(code):
     return result
 
 if __name__ == "__main__":
-    code1 = '''
+    code = '''
 for (int 1 = 1; i <= 5; i+) {
     Syste.out.pritln("El valor de la cifra es: " + i);
 '''
     print("Analizando código:")
-    parse_for_loop(code1)
+    parse_for_loop(code)
