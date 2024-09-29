@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from main import tokens, lexer
+from ana_lexico import tokens, lexer
 
 errors = []
 
