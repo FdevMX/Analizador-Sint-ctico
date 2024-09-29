@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from ana_lexico import tokens, lexer
+from lexico import tokens, lexer
 
 errors = []
 
@@ -75,12 +75,5 @@ if __name__ == "__main__":
 for (int 1 = 1; i <= 5; i+) {
     Syste.out.pritln("El valor de la cifra es: " + i);
 '''
-    print("Analizando código 1:")
+    print("Analizando código:")
     parse_for_loop(code1)
-
-    print("\nAnalizando código 2:")
-    code2 = '''
-for (int 1 = 1; i <= 5; i+) {
-    System.out.printn("El valor de la cifra es: " + i)
-'''
-    parse_for_loop(code2)
