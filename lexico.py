@@ -59,12 +59,11 @@ def t_error(t):
 # Construir el lexer
 lexer = lex.lex()
 
-# Inicializar el número de línea en -1
-lexer.lineno = 0
-
 # Función para obtener todos los tokens
-def get_all_tokens(data):
-    lexer.input(data)
+def get_all_tokens(code):
+    # Inicializar el número de línea en 1
+    lexer.lineno = 1
+    lexer.input(code)
     tokens = []
     while True:
         tok = lexer.token()
@@ -74,14 +73,14 @@ def get_all_tokens(data):
     return tokens
 
 # Ejemplo de uso
-if __name__ == "__main__":
-    data = '''
-for (int i = 1; i <= 5; i++) {
-    System.out.println("El valor de la cifra es: " + i);
-}
-'''
-    tokens = get_all_tokens(data)
-    print("Token\t\tLexema\t\tLínea")
-    print("-" * 40)
-    for token in tokens:
-        print(f"{token[0]:<12}{token[1]:<16}{token[2]}")
+# if __name__ == "__main__":
+#     data = '''
+# for (int i = 1; i <= 5; i++) {
+#     System.out.println("El valor de la cifra es: " + i);
+# }
+# '''
+#     tokens = get_all_tokens(data)
+#     print("Token\t\tLexema\t\tLínea")
+#     print("-" * 40)
+#     for token in tokens:
+#         print(f"{token[0]:<12}{token[1]:<16}{token[2]}")
