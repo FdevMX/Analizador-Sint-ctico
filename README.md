@@ -103,6 +103,6 @@ Error en la línea 1: Incremento incorrecto, use '++' en lugar de '+'
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
 
-
+[GPL-3.0 license](https://choosealicense.com/licenses/gpl-3.0/)
 
 
