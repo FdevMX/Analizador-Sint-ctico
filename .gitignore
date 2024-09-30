@@ -409,3 +409,4 @@ FodyWeavers.xsd
 
 *__pycache__
 *__pycache__/
+.vercel
