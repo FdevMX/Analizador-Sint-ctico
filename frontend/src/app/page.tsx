@@ -19,14 +19,30 @@ export default function Component() {
     document.documentElement.classList.toggle('dark', newTheme === 'dark')
     localStorage.setItem('theme', newTheme)
   }
-  const analyzeCode = () => {
-    setOutput('Análisis completado.\n> Tokens identificados: 4\n> Errores encontrados: 0')
-    setTokens([
-      { token: 'KEYWORD', lexeme: 'if', line: 1 },
-      { token: 'IDENTIFIER', lexeme: 'x', line: 1 },
-      { token: 'OPERATOR', lexeme: '>', line: 1 },
-      { token: 'NUMBER', lexeme: '0', line: 1 },
-    ])
+
+  const analyzeCode = async () => {
+    const codeContent = textareaRef.current?.value?.trim() || ''; // Obtener el contenido del textarea y eliminar espacios en blanco al principio y al final
+
+    if (codeContent === '') {
+      setOutput('Error: Ingrese su codigo.');
+      return; // Salir de la función si el código está vacío
+    }
+
+    try {
+      const response = await fetch('/analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code : codeContent }),
+      })
+      const data = await response.json()
+      setTokens(data.tokens)
+      setOutput(data.errors.join('\n') || 'No se encontraron errores')
+    } catch (error) {
+      console.error('Error:', error)
+      setOutput('Error al analizar el código')
+    }
   }
 
   const clearAll = () => {
@@ -58,15 +74,21 @@ export default function Component() {
   // ... (rest of your existing functions)
 
   return (
-    <div className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white transition-colors duration-300`}>
+    <div className={`min-h-screen bg-white dark:bg-dark-gray text-black dark:text-white transition-colors duration-300`}>
       <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-        <Github className="h-6 w-6" />
+        <a 
+        href="https://github.com/FdevMX/Analizador-Sintactico" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 p-3 rounded-full w-20 h-18 transition-all duration-300 flex items-center justify-center"
+        >
+          <Github className="h6- w-6" />
+        </a>
         <h1 className="text-2xl font-bold">Analizador</h1>
         <Button 
-          variant="ghost" 
-          size="icon" 
+          variant="ghost"
           onClick={toggleTheme}
-          className="text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800"
+          className="text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 p-3 rounded-full w-20 h-18 transition-all duration-300 flex items-center justify-center"
         >
           {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
         </Button>
