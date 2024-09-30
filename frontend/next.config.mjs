@@ -10,7 +10,9 @@ const nextConfig = {
       return [
         {
           source: '/analyze',
-          destination: '/analyze', // Esto sigue apuntando a la ruta del backend
+          destination: 'http://localhost:5000/analyze', // Asume que Flask está corriendo en el puerto 5000
+          // destination: 'https://tu-backend-flask.herokuapp.com/analyze', // Ajusta esta URL
+          // destination: '/analyze', // Esto sigue apuntando a la ruta del backend
         },
       ]
     },

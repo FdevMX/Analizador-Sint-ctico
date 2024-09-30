@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from lexico import get_all_tokens
 from sintactico import parse_for_loop
 
 app = Flask(__name__)
+CORS(app)  # Permite CORS para todas las rutas
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
