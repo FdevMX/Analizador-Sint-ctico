@@ -11,6 +11,7 @@ Este proyecto es un analizador sintáctico que utiliza Next.js para el frontend 
   - [Advertencia](#advertencia)
   - [Configuración](#configuración)
   - [Código de Prueba](#código-de-prueba)
+  - [Capturas de Pantalla](#capturas-de-pantalla)
   - [Licencia](#licencia)
 
 ## Instalación
@@ -98,11 +99,37 @@ Debe darte un mensaje de error como el siguiente:
 Error en la línea 1: Incremento incorrecto, use '++' en lugar de '+'
 ```
 
+## Capturas de Pantalla
+
+Aquí hay algunas capturas de pantalla del proyecto en funcionamiento:
+
+<table>
+  <tr>
+    <td><img src="./screenshots/1.png" width="300"/></td>
+    <td><img src="./screenshots/2.png" width="300"/></td>
+    <td><img src="./screenshots/3.png" width="300"/></td>
+  </tr>
+  <tr>
+    <td><em>Imagen 1: Codigo limpio sin errores</em></td>
+    <td><em>Imagen 2: Codigo con error de incremento</em></td>
+    <td><em>Imagen 3: Codigo con error de incremento y de sintaxis</em></td>
+  </tr>
+  <tr>
+    <td><img src="./screenshots/4.png" width="300"/></td>
+    <td><img src="./screenshots/5.png" width="300"/></td>
+    <td><img src="./screenshots/6.png" width="300"/></td>
+  </tr>
+  <tr>
+    <td><em>Imagen 4: Codigo con error de sintaxis: hay incremento inválido</em></td>
+    <td><em>Imagen 5: Codigo con error de sintaxis: faltan llaves de cierre</em></td>
+    <td><em>Imagen 6: Codigo con error de sintaxis: falta un punto y coma</em></td>
+  </tr>
+</table>
+
 
 ## Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
 
 [GPL-3.0 license](https://choosealicense.com/licenses/gpl-3.0/)
-
 
