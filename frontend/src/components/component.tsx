@@ -54,7 +54,7 @@ export default function Component() {
         <header className="flex items-center justify-between p-4 border-b bg-background/90">
           <Github className="h-6 w-6" />
           <h1 className="text-2xl font-bold">Analizador</h1>
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+          <Button variant="ghost" onClick={toggleTheme}>
             {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
           </Button>
         </header>
