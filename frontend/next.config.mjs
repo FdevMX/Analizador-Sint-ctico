@@ -15,7 +15,7 @@ const nextConfig = {
       ]
     },
     // Asegúrate de que el output sea 'standalone' para Vercel
-    output: 'standalone',
+    output: 'server',
 }
   
   export default nextConfig;
