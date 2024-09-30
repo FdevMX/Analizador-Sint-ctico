@@ -24,27 +24,45 @@ def p_statement(p):
 
 def p_initialization_error(p):
     '''initialization : INT NUMBER EQUALS NUMBER SEMICOLON'''
-    errors.append(f"Error en la línea {p.lineno(2) -1 }: No se puede usar un número como nombre de variable")
+    errors.append(f"Error en la línea {p.lineno(2)}: No se puede usar un número como nombre de variable")
 
 def p_increment_error(p):
     '''increment : IDENTIFIER PLUS'''
-    errors.append(f"Error en la línea {p.lineno(2) - 1}: Incremento incorrecto, use '++' en lugar de '+'")
+    errors.append(f"Error en la línea {p.lineno(2)}: Incremento incorrecto, use '++' en lugar de '+'")
 
 def p_error(p):
     if p:
-        errors.append(f"Error de sintaxis en la línea {p.lineno - 1}, posición {p.lexpos}: Token inesperado '{p.value}'")
+        errors.append(f"Error de sintaxis en la línea {p.lineno}, posición {p.lexpos}: Token inesperado '{p.value}'")
         parser.errok()
     else:
         check_for_missing_elements()
 
+# def check_for_missing_elements():
+#     stack_types = [t.type if t else '' for t in parser.symstack]
+#     if 'LBRACE' in stack_types and 'RBRACE' not in stack_types:
+#         errors.append("Error de sintaxis: Falta la llave de cierre '}' al final del bucle 'for'")
+#     if 'LPAREN' in stack_types and 'RPAREN' not in stack_types:
+#         errors.append("Error de sintaxis: Falta el paréntesis de cierre ')' en la declaración del bucle 'for'")
+#     if 'SEMICOLON' not in stack_types[-3:]:
+#         errors.append("Error de sintaxis: Falta un punto y coma ';' al final de una declaración")
+        
 def check_for_missing_elements():
-    stack_types = [t.type if t else '' for t in parser.symstack]
+    # stack_types = [t.type if t else '' for t in parser.symstack]
+    stack_types = [t.type for t in parser.symstack if t and t.type]
+    
+    # Verificar si el stack está vacío
+    if not stack_types:
+        errors.append("Error de sintaxis: El código está completamente vacío.")
+        return  # Salir de la función si el stack está vacío
+    
+    # Verificar otros errores de sintaxis
     if 'LBRACE' in stack_types and 'RBRACE' not in stack_types:
         errors.append("Error de sintaxis: Falta la llave de cierre '}' al final del bucle 'for'")
     if 'LPAREN' in stack_types and 'RPAREN' not in stack_types:
         errors.append("Error de sintaxis: Falta el paréntesis de cierre ')' en la declaración del bucle 'for'")
     if 'SEMICOLON' not in stack_types[-3:]:
         errors.append("Error de sintaxis: Falta un punto y coma ';' al final de una declaración")
+
 
 def check_specific_errors(code):
     lines = code.split('\n')
@@ -62,18 +80,19 @@ def parse_for_loop(code):
     lexer.lineno = 1
     check_specific_errors(code)
     result = parser.parse(code, lexer=lexer)
-    if errors:
-        print("Se encontraron los siguientes errores:")
-        for error in errors:
-            print(error)
-    elif result is None:
-        print("No se encontraron errores")
-    return result
+    return errors
+    # if errors:
+    #     print("Se encontraron los siguientes errores:")
+    #     for error in errors:
+    #         print(error)
+    # elif result is None:
+    #     print("No se encontraron errores")
+    # return result
 
-if __name__ == "__main__":
-    code = '''
-for (int 1 = 1; i <= 5; i+) {
-    Syste.out.pritln("El valor de la cifra es: " + i);
-'''
-    print("Analizando código:")
-    parse_for_loop(code)
+# if __name__ == "__main__":
+#     code = '''
+# for (int 1 = 1; i <= 5; i+) {
+#     Syste.out.pritln("El valor de la cifra es: " + i);
+# '''
+#     print("Analizando código:")
+#     parse_for_loop(code)
