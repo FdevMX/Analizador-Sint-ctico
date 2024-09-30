@@ -1,0 +1,15 @@
+{
+  "projectId": "prj_xyldffZnstlp3MsycuOdZ13FOb3a",
+  "orgId": "team_4Wfo3t0Msr6K1JrAIXS1RJdm",
+  "settings": {
+    "createdAt": 1727661677534,
+    "framework": null,
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": "frontend/src/app",
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "20.x"
+  }
+}
