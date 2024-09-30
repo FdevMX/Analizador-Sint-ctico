@@ -2,17 +2,23 @@
 
 Este proyecto es un analizador sintáctico que utiliza Next.js para el frontend y un backend en Flask. El propósito del proyecto es analizar sintácticamente y lexicamente el código proporcionado por el usuario.
 
+
 ## Tabla de Contenidos
 
 - [Analizador Sintáctico](#analizador-sintáctico)
   - [Tabla de Contenidos](#tabla-de-contenidos)
+  - [Advertencia](#advertencia)
   - [Instalación](#instalación)
   - [Uso](#uso)
-  - [Advertencia](#advertencia)
   - [Configuración](#configuración)
   - [Código de Prueba](#código-de-prueba)
   - [Capturas de Pantalla](#capturas-de-pantalla)
   - [Licencia](#licencia)
+
+## Advertencia
+> [!WARNING]  
+> Si ingresas a la versión desplegada, puede que el servidor backend este suspendido o este lento. En ese caso, intenta recargar varias veces la página o espera unos minutos antes de volver a intentarlo.
+
 
 ## Instalación
 
@@ -51,11 +57,6 @@ Para ejecutar el proyecto localmente:
     cd ../frontend
     npm run dev
     ```
-
-## Advertencia
-> [!WARNING]  
-> Si ingresas a la versión desplegada, puede que el servidor backend falle o este lento. En ese caso, intenta recargar varias veces la página o espera unos minutos antes de volver a intentarlo.
-
 
 ## Configuración
 
