@@ -71,16 +71,3 @@ def get_all_tokens(code):
             break
         tokens.append((tok.type, tok.value, tok.lineno))
     return tokens
-
-# Ejemplo de uso
-# if __name__ == "__main__":
-#     data = '''
-# for (int i = 1; i <= 5; i++) {
-#     System.out.println("El valor de la cifra es: " + i);
-# }
-# '''
-#     tokens = get_all_tokens(data)
-#     print("Token\t\tLexema\t\tLínea")
-#     print("-" * 40)
-#     for token in tokens:
-#         print(f"{token[0]:<12}{token[1]:<16}{token[2]}")
