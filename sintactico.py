@@ -37,31 +37,31 @@ def p_error(p):
     else:
         check_for_missing_elements()
 
-# def check_for_missing_elements():
-#     stack_types = [t.type if t else '' for t in parser.symstack]
-#     if 'LBRACE' in stack_types and 'RBRACE' not in stack_types:
-#         errors.append("Error de sintaxis: Falta la llave de cierre '}' al final del bucle 'for'")
-#     if 'LPAREN' in stack_types and 'RPAREN' not in stack_types:
-#         errors.append("Error de sintaxis: Falta el paréntesis de cierre ')' en la declaración del bucle 'for'")
-#     if 'SEMICOLON' not in stack_types[-3:]:
-#         errors.append("Error de sintaxis: Falta un punto y coma ';' al final de una declaración")
-        
 def check_for_missing_elements():
-    # stack_types = [t.type if t else '' for t in parser.symstack]
-    stack_types = [t.type for t in parser.symstack if t and t.type]
-    
-    # Verificar si el stack está vacío
-    if not stack_types:
-        errors.append("Error de sintaxis: El código está completamente vacío.")
-        return  # Salir de la función si el stack está vacío
-    
-    # Verificar otros errores de sintaxis
+    stack_types = [t.type if t else '' for t in parser.symstack]
     if 'LBRACE' in stack_types and 'RBRACE' not in stack_types:
         errors.append("Error de sintaxis: Falta la llave de cierre '}' al final del bucle 'for'")
     if 'LPAREN' in stack_types and 'RPAREN' not in stack_types:
         errors.append("Error de sintaxis: Falta el paréntesis de cierre ')' en la declaración del bucle 'for'")
     if 'SEMICOLON' not in stack_types[-3:]:
         errors.append("Error de sintaxis: Falta un punto y coma ';' al final de una declaración")
+        
+# def check_for_missing_elements():
+#     # stack_types = [t.type if t else '' for t in parser.symstack]
+#     stack_types = [t.type for t in parser.symstack if t and t.type]
+    
+#     # Verificar si el stack está vacío
+#     if not stack_types:
+#         errors.append("Error de sintaxis: El código está completamente vacío.")
+#         return  # Salir de la función si el stack está vacío
+    
+#     # Verificar otros errores de sintaxis
+#     if 'LBRACE' in stack_types and 'RBRACE' not in stack_types:
+#         errors.append("Error de sintaxis: Falta la llave de cierre '}' al final del bucle 'for'")
+#     if 'LPAREN' in stack_types and 'RPAREN' not in stack_types:
+#         errors.append("Error de sintaxis: Falta el paréntesis de cierre ')' en la declaración del bucle 'for'")
+#     if 'SEMICOLON' not in stack_types[-3:]:
+#         errors.append("Error de sintaxis: Falta un punto y coma ';' al final de una declaración")
 
 
 def check_specific_errors(code):
